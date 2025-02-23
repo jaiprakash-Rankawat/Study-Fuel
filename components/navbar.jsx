@@ -8,12 +8,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter(); // Router instance
 
-  // Function to handle navigation and menu closing
-  const handleNavigation = (path) => {
-    router.push(path); // Navigate to the path
-    setIsOpen(false); // Close menu
-  };
-
   return (
     <nav className="fixed top-0 left-0 w-full z-50 p-4 bg-gray-900 text-white shadow-lg transition-all border-b border-gray-700">
       <div className="container mx-auto flex justify-between items-center">
@@ -48,7 +42,7 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <Link href="/Contact-us" className="hover:text-blue-400 transition">
+            <Link href="/contact-us" className="hover:text-blue-400 transition">
               Contact
             </Link>
           </li>
@@ -83,49 +77,53 @@ export default function Navbar() {
 
         <ul className="flex flex-col space-y-4 px-6 text-white text-base">
           <li>
-            <button
+            <Link
+              href="/"
               className="block py-2 px-4 hover:bg-blue-500 rounded-md transition text-left w-full"
-              onClick={() => handleNavigation("/")}
+              onClick={() => setIsOpen(false)}
             >
               Home
-            </button>
+            </Link>
           </li>
           <li>
-            <button
+            <Link
+              href="/study-material"
               className="block py-2 px-4 hover:bg-blue-500 rounded-md transition text-left w-full"
-              onClick={() => handleNavigation("/study-material")}
+              onClick={() => setIsOpen(false)}
             >
               Study Material
-            </button>
+            </Link>
           </li>
           {["Colleges", "Upload", "Blog", "About"].map((item, index) => (
             <li key={index}>
-              <button
+              <Link
+                href={`/${item.toLowerCase()}`}
                 className="block py-2 px-4 hover:bg-blue-500 rounded-md transition text-left w-full"
-                onClick={() => handleNavigation(`/${item.toLowerCase()}`)}
+                onClick={() => setIsOpen(false)}
               >
                 {item}
-              </button>
+              </Link>
             </li>
           ))}
           <li>
-            <button
+            <Link
+              href="/contact-us"
               className="block py-2 px-4 hover:bg-blue-500 rounded-md transition text-left w-full"
-              onClick={() => handleNavigation("/Contact-us")}
+              onClick={() => setIsOpen(false)}
             >
               Contact
-            </button>
+            </Link>
           </li>
         </ul>
       </div>
 
       {/* Background Overlay when Mobile Menu is Open */}
-      {isOpen && (
+      {/* {isOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-40"
           onClick={() => setIsOpen(false)}
         ></div>
-      )}
+      )} */}
     </nav>
   );
 }
