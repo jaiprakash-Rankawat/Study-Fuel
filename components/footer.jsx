@@ -29,21 +29,27 @@ export default function Footer() {
               <li className="text-gray-400 hover:text-blue-400 transition">
                 <Link href="/study-material">Study Materials</Link>
               </li>
-              {["Colleges", "Upload", "Blog", "About", "Contact"].map(
-                (item, index) => (
-                  <li
-                    key={index}
+              {["Colleges", "Upload", "Blog", "About"].map((item, index) => (
+                <li
+                  key={index}
+                  className="text-gray-400 hover:text-blue-400 transition"
+                >
+                  <Link
+                    href={`/${item.toLowerCase()}`}
                     className="text-gray-400 hover:text-blue-400 transition"
                   >
-                    <Link
-                      href={`/${item.toLowerCase()}`}
-                      className="text-gray-400 hover:text-blue-400 transition"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                )
-              )}
+                    {item}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/contact-us"
+                  className="text-gray-400 hover:text-blue-400 transition"
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
