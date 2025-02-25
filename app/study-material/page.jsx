@@ -77,7 +77,7 @@ export default function SearchBar() {
   return (
     <div className="p-6 bg-gray-900 text-white">
       {/* 🔍 Search Title */}
-      <h1 className="text-3xl font-bold text-center mb-6">
+      <h1 className="text-4xl font-bold text-center mb-8 text-blue-400">
         🔍 Search Study Material
       </h1>
 
@@ -85,16 +85,16 @@ export default function SearchBar() {
       <input
         type="text"
         placeholder="Enter subject name..."
-        className="w-full p-3 rounded-md bg-gray-800 text-white text-lg"
+        className="w-full p-4 rounded-lg bg-gray-800 text-white text-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
 
       {/* Filters Section */}
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* College Dropdown */}
         <select
-          className="p-3 rounded-md bg-gray-800 text-white"
+          className="p-4 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={(e) => setFilter({ ...filter, college: e.target.value })}
         >
           <option value="">All Colleges</option>
@@ -105,7 +105,7 @@ export default function SearchBar() {
 
         {/* Branch Dropdown */}
         <select
-          className="p-3 rounded-md bg-gray-800 text-white"
+          className="p-4 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={(e) => setFilter({ ...filter, branch: e.target.value })}
         >
           <option value="">All Branches</option>
@@ -116,7 +116,7 @@ export default function SearchBar() {
 
         {/* Semester Dropdown */}
         <select
-          className="p-3 rounded-md bg-gray-800 text-white"
+          className="p-4 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={(e) => setFilter({ ...filter, semester: e.target.value })}
         >
           <option value="">All Semesters</option>
@@ -132,26 +132,29 @@ export default function SearchBar() {
       </div>
 
       {/* 📂 Grid Section for Categorized Study Materials */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
         {categories.map((category) => {
           const categoryResults = results.filter(
             (item) => item.category === category
           );
 
           return (
-            <div key={category} className="bg-gray-800 p-4 rounded-md">
-              <h2 className="text-xl font-semibold mb-3 text-blue-400">
+            <div
+              key={category}
+              className="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700"
+            >
+              <h2 className="text-2xl font-semibold mb-4 text-blue-400 text-center">
                 {category}
               </h2>
               {categoryResults.length > 0 ? (
-                <ul className="space-y-2">
+                <ul className="space-y-3">
                   {categoryResults.map((item) => (
-                    <li key={item.id} className="text-white">
+                    <li key={item.id} className="text-white text-lg">
                       📘 <strong>{item.subject}</strong> - {item.college} (
                       {item.branch}, {item.semester})
                       <a
                         href={item.file}
-                        className="ml-2 text-blue-400 hover:underline"
+                        className="ml-3 text-blue-400 hover:underline"
                       >
                         Download
                       </a>
@@ -159,7 +162,7 @@ export default function SearchBar() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-gray-400">No materials found.</p>
+                <p className="text-gray-400 text-center">No materials found.</p>
               )}
             </div>
           );

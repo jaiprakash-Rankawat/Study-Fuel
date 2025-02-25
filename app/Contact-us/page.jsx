@@ -39,7 +39,7 @@ export default function ContactUs() {
             </div>
             <div className="flex items-center space-x-4">
               <Phone size={28} />
-              <p className="text-lg">+91 9876543210</p>
+              <p className="text-lg">+91 8852001611</p>
             </div>
             <div className="flex items-center space-x-4">
               <MapPin size={28} />
