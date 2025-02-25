@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { UploadCloud, User } from "lucide-react";
+import { UploadCloud, User, CheckCircle, AlertTriangle } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function UploadPage() {
   const [formData, setFormData] = useState({
@@ -14,19 +15,38 @@ export default function UploadPage() {
     subject: "",
     file: null,
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      setError("File size should be less than 5MB.");
+      return;
+    }
+    setError(null);
+    setFormData({ ...formData, file });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("File Uploaded Successfully!");
+    if (!formData.file) {
+      setError("Please select a file to upload.");
+      return;
+    }
+    setError(null);
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      setSuccess("File uploaded successfully!");
+      setTimeout(() => setSuccess(null), 3000);
+    }, 2000);
   };
 
   const contributors = [
@@ -37,7 +57,7 @@ export default function UploadPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center py-10 px-4 ">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center py-10 px-4">
       {/* Header Message */}
       <div className="text-center mb-8 max-w-2xl">
         <h2 className="text-4xl font-bold text-blue-400 animate-pulse">
@@ -51,7 +71,10 @@ export default function UploadPage() {
       </div>
 
       {/* Upload Form */}
-      <form
+      <motion.form
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         onSubmit={handleSubmit}
         className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-3xl"
       >
@@ -60,61 +83,30 @@ export default function UploadPage() {
         </h3>
 
         <div className="grid md:grid-cols-2 gap-4">
-          <InputField
-            label="Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Location"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Mobile Number"
-            name="mobile"
-            type="tel"
-            value={formData.mobile}
-            onChange={handleChange}
-          />
-          <InputField
-            label="College Name"
-            name="college"
-            value={formData.college}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Branch Name"
-            name="branch"
-            value={formData.branch}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Stream"
-            name="stream"
-            value={formData.stream}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Semester"
-            name="semester"
-            value={formData.semester}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Subject"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-          />
+          {[
+            "name",
+            "location",
+            "mobile",
+            "college",
+            "branch",
+            "stream",
+            "semester",
+            "subject",
+          ].map((field, index) => (
+            <InputField
+              key={index}
+              label={field.charAt(0).toUpperCase() + field.slice(1)}
+              name={field}
+              value={formData[field]}
+              onChange={handleChange}
+            />
+          ))}
         </div>
 
         {/* File Upload */}
         <div className="mt-6">
           <label className="block text-sm font-medium text-gray-400">
-            Upload File
+            Upload File (Max: 5MB)
           </label>
           <input
             type="file"
@@ -123,37 +115,46 @@ export default function UploadPage() {
           />
         </div>
 
+        {error && (
+          <p className="text-red-400 mt-2 flex items-center">
+            <AlertTriangle size={18} className="mr-2" /> {error}
+          </p>
+        )}
+
         {/* Submit Button */}
         <button
           type="submit"
-          className="mt-6 bg-gradient-to-r from-blue-500 to-blue-700 px-4 py-2 rounded-md w-full hover:scale-105 transition-all flex items-center justify-center"
+          className={`mt-6 bg-gradient-to-r from-blue-500 to-blue-700 px-4 py-2 rounded-md w-full hover:scale-105 transition-all flex items-center justify-center ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={loading}
         >
-          <UploadCloud size={20} className="mr-2" />
-          Upload File
+          {loading ? "Uploading..." : "Upload File"}
         </button>
-      </form>
 
-      {/* Top Contributors */}
-      <div className="mt-12 w-full max-w-5xl">
-        <h3 className="text-2xl font-semibold text-center mb-6">
-          ✨ Top Contributors ✨
-        </h3>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {success && (
+          <p className="text-green-400 mt-4 flex items-center">
+            <CheckCircle size={18} className="mr-2" /> {success}
+          </p>
+        )}
+      </motion.form>
+
+      {/* Top Contributors Section */}
+      <section className="py-20 px-6 w-full bg-gray-800 mt-20 shadow-xl rounded-xl">
+        <h2 className="text-5xl font-extrabold text-center text-yellow-400 mb-12">
+          🏆 Top Contributors 🏆
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {contributors.map((student, index) => (
-            <div
+            <ContributorCard
               key={index}
-              className="bg-gray-800 p-5 rounded-lg shadow-lg text-center transform hover:scale-105 transition-all"
-            >
-              <User size={40} className="mx-auto text-blue-400 mb-3" />
-              <h4 className="text-xl font-bold">{student.name}</h4>
-              <p className="text-gray-300">{student.college}</p>
-              <p className="text-blue-400 font-semibold">
-                Uploads: {student.uploads}
-              </p>
-            </div>
+              name={student.name}
+              college={student.college}
+              uploads={student.uploads}
+            />
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
@@ -171,4 +172,19 @@ const InputField = ({ label, name, value, onChange, type = "text" }) => (
       required
     />
   </div>
+);
+
+// Top Contributor Card
+const ContributorCard = ({ name, college, uploads }) => (
+  <motion.div
+    whileHover={{ scale: 1.1 }}
+    className="bg-gradient-to-br from-yellow-500 to-orange-600 p-10 rounded-xl shadow-lg text-center transform transition-all hover:shadow-2xl"
+  >
+    <User size={50} className="mx-auto text-white mb-4" />
+    <h3 className="text-2xl font-bold text-white">{name}</h3>
+    <p className="mt-1 text-gray-200 text-lg">{college}</p>
+    <p className="mt-3 text-white font-semibold text-xl">
+      Uploads: {uploads} 📂
+    </p>
+  </motion.div>
 );
