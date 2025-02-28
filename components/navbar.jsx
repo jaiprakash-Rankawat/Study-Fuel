@@ -1,18 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Use this for Next.js 13+
 import { Menu, X } from "lucide-react"; // Import icons
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter(); // Router instance
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 p-4 bg-gray-900 text-white shadow-lg transition-all border-b border-gray-700">
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Side: Logo */}
-        <h1 className="text-lg md:text-2xl font-extrabold tracking-wide bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
+        <h1 className="text-lg md:text-2xl font-extrabold tracking-wide bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text cursor-pointer">
           StudyFuel
         </h1>
 
