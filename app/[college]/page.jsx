@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Search, ExternalLink } from "lucide-react";
-
+import Image from "next/image";
 export default function CollegesPage() {
   // College Data
   const colleges = {
@@ -9,17 +9,22 @@ export default function CollegesPage() {
       {
         name: "IIT Bombay",
         location: "Mumbai, Maharashtra",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/3/37/IIT_Bombay_Main_Building.jpg",
+        image: "colleges/iitBombay.jpg",
         info: "One of the premier engineering institutes in India, known for its excellent faculty and research.",
         link: "#",
       },
       {
         name: "IIT Delhi",
         location: "New Delhi",
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/6/69/IIT_Delhi_Main_Building.jpg",
+        image: "colleges/iitDelhi.jpg",
         info: "A top-ranked institute offering world-class education and research facilities.",
+        link: "#",
+      },
+      {
+        name: "IIT Madras",
+        location: "Chennai, Tamil Nadu",
+        image: "colleges/iitMadras.jpg",
+        info: "Great for research and development projects.",
         link: "#",
       },
     ],
